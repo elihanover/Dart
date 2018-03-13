@@ -23,3 +23,4 @@ or if that doesn't work try <br />
 ##### 2. Load the webpage.
 ##### 3. Select color from picker and submit to edit your pixel.
 Unlock your wallet if prompted.
+##### 4. Make some art, even if it is just one pixel.
