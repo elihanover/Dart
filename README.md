@@ -2,7 +2,6 @@
 ## Experimenting with Decentralized Collaborative Emergent Art
 
 
-
 ## Instructions
 ##### 1. Instead geth (a go implementation of ethereum)
 > https://geth.ethereum.org/downloads/
