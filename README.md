@@ -1,8 +1,8 @@
 # Dart
-Experimenting with Decentralized Collaborative Emergent Art
+## Experimenting with Decentralized Collaborative Emergent Art
+
 
 ## Instructions
-### 1. Run a local Rinkeby node.
-### 2. Load the webpage.
-### (Boom. You're connected to an Ethereum test blockchain.)
-### 3. Select color from picker and submit to edit your pixel.
+##### 1. Run a local Rinkeby node to connect to an Ethereum test blockchain.
+##### 2. Load the webpage.
+##### 3. Select color from picker and submit to edit your pixel.
