@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="colorpicker.css"/>
   <style>
   body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   </style>
@@ -34,15 +35,21 @@ and is wrapped around the whole page content, except for the footer in this exam
   <!-- Blog entry -->
   <div class="w3-card-4 w3-margin w3-white">
     <div class="w3-container">
-      <h3><b>NEED IMAGE VIEWER</b></h3>
+      <canvas id="myCanvas" width="1000" height="1000"></canvas>
     </div>
   </div>
 
   <!-- Blog entry -->
   <div class="w3-card-4 w3-margin w3-white">
     <div class="w3-container">
-      <h3><b>Need Color Sliders</b></h3>
-      <button onclick="writeColor()" class="w3-button w3-amber w3-padding-large w3-margin-bottom">Color!</button>
+      <h3><b>Paint Your Share</b></h3>
+      <input type="checkbox" id="color-input" checked></input>
+        <canvas id="color-block" height="150" width="150"></canvas>
+        <canvas id="color-strip" height="150" width="30"></canvas>
+
+        <div>
+          <button for="color-input" id="color-label" style="background-color: red; height:50px; width:100px" onClick="writeColor()">Draw</button>
+        </div>
     </div>
   </div>
 
@@ -50,7 +57,7 @@ and is wrapped around the whole page content, except for the footer in this exam
   <div class="w3-card-4 w3-margin w3-white">
     <div class="w3-container">
       <h3><b>Stats</b></h3>
-      <h4 id="nWrites">Total Writes:</h4>
+      <h4 id="nWrites">Total Writes: -1</h4>
     </div>
   </div>
 
@@ -82,6 +89,70 @@ and is wrapped around the whole page content, except for the footer in this exam
 
 </body>
 <script src="web3.js/dist/web3.min.js"></script>
+<script src="colorpicker.js"></script>
 <script type="text/javascript">
+// metamask injects web3
+if (typeof web3 !== 'undefined') {
+    web3 = new Web3(Web3.currentProvider);
+    console.log("existed");
+} else {
+    // set the provider you want from Web3.providers
+    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    console.log("local node");
+}
+
+// get network
+console.log(web3);
+
+
+/* Contract Parameters */
+abi = JSON.parse('[{"constant":true,"inputs":[],"name":"npixels","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"red","type":"uint256"},{"name":"gre","type":"uint256"},{"name":"blu","type":"uint256"}],"name":"writeWithColor","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getYourPixel","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"writes","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"b","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"g","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"r","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"np","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]');
+DartContract = web3.eth.contract(abi);
+contractAddress = '0x40315adc01342d7f10ebf69a957e3abde31a6b02';
+contractInstance = DartContract.at(contractAddress);
+userAddress = web3.eth.accounts[0]; // get account from provider
+
+// get the pixel you have access to
+pxl = contractInstance.getYourPixel.call();
+
+// set n_writes
+document.getElementById('nWrites').innerText = "Total Writes: " + contractInstance.writes.call();
+paint();
+
+// contruct the image
+function paint() {
+
+    var canvas = document.getElementById('myCanvas');
+    var cnv = canvas.getContext('2d');
+    const npixels = contractInstance.npixels.call();
+    for (i = 0; i < npixels; i++) {
+        // get pixels
+        r = contractInstance.r.call(i);
+        g = contractInstance.g.call(i);
+        b = contractInstance.b.call(i);
+
+        cnv.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+        cnv.fillRect((i%10)*100, 100*parseInt(i/10), 100, 100);
+
+    }
+}
+
+
+
+function writeColor() {
+    // get R, G, and B from the element
+    var ctx1 = colorBlock.getContext('2d');
+    var imageData = ctx1.getImageData(x, y, 1, 1).data;
+    r = imageData[0];
+    g = imageData[1];
+    b = imageData[2];
+    console.log(r, g, b);
+    web3.personal.unlockAccount(eth.accounts[1], 'password')
+    contractInstance.writeWithColor.sendTransaction(r, g, b, {from: userAddress, value: 0, gas:6700000})
+    // fallback: if valid, change the color of that pixel
+    // pop error otherwise
+    paint()
+
+}
 </script>
 </html>

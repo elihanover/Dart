@@ -1,42 +1,53 @@
-// metamask injects web3
-if (typeof web3 !== 'undefined') {
-    web3 = new Web3(Web3.currentProvider);
-    console.log("existed");
-} else {
-    // set the provider you want from Web3.providers
-    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-    console.log("local node");
-}
-
-// get network
-console.log(web);
 
 /* Contract Parameters */
-abi = JSON.parse('');
+abi = JSON.parse('[{"constant":true,"inputs":[],"name":"npixels","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"red","type":"uint256"},{"name":"gre","type":"uint256"},{"name":"blu","type":"uint256"}],"name":"writeWithColor","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getYourPixel","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"writes","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"b","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"g","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"r","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"np","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]');
 DartContract = web3.eth.contract(abi);
-contractAddress = '';
+contractAddress = '0x40315adc01342d7f10ebf69a957e3abde31a6b02';
 contractInstance = DartContract.at(contractAddress);
 userAddress = web3.eth.accounts[0]; // get account from provider
 
 // get the pixel you have access to
 pxl = contractInstance.getYourPixel.call();
 
-// get pixels
-r = contractInstance.r.call();
-g = contractInstance.g.call();
-b = contractInstance.b.call();
+// set n_writes
+document.getElementById('nWrites').innerText = "Total Writes: " + contractInstance.writes.call();
 
 
 // contruct the image
-// TODO: build webpage and pick relevant UI objects
+function paint() {
+
+    var canvas = document.getElementById('myCanvas');
+    var cnv = canvas.getContext('2d');
+    console.log(cvs);
+    const npixels = contractInstance.npixels.call();
+    console.log(npixels.toString());
+    for (i = 0; i < npixels; i++) {
+        // get pixels
+        r = contractInstance.r.call(i);
+        g = contractInstance.g.call(i);
+        b = contractInstance.b.call(i);
+
+        cnv.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+        console.log(fillStyle);
+        cnv.fillRect((i%100)*10, i/10, 10, 10);
+
+    }
+}
 
 
 
 function writeColor() {
     // get R, G, and B from the element
-    r =
-    g =
-    b =
-
+    var ctx1 = colorBlock.getContext('2d');
+    var imageData = ctx1.getImageData(x, y, 1, 1).data;
+    r = imageData[0];
+    g = imageData[1];
+    b = imageData[2];
+    console.log(r, g, b);
+    web3.personal.unlockAccount(userAddress, 'password')
     contractInstance.writeWithColor.sendTransaction(r, g, b, {from: userAddress, value: 0, gas:6700000})
+    // fallback: if valid, change the color of that pixel
+    // pop error otherwise
+    paint()
+
 }

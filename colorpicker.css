@@ -1,0 +1,39 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+body {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0px;
+  background-color: #e6e6e6;
+}
+h2 {
+  background-color: #dbdbdb;
+  margin: 0;
+  padding: 0px;
+  font-family: 'Open Sans';
+}
+#color-input {
+  display: none;
+}
+#color-label {
+  margin-left: auto;
+  margin-right: auto;
+  height: 30px;
+  width: 50px;
+}
+#color-input:checked ~ #color-picker {
+  opacity: 1;
+}
+#color-picker {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  height: 150px;
+  width: 185px;
+  border: solid 1px #ccc;
+  opacity: 0;
+  padding: 5px;
+  float: left;
+}
+canvas:hover {
+  cursor: crosshair;
+}

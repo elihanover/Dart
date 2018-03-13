@@ -6,7 +6,8 @@ contract Dart {
     uint[] public r;
     uint[] public g;
     uint[] public b;
-    uint private npixels;
+    uint public npixels;
+    uint public writes;
 
     function Dart(uint np) public { // constructor
         // create pixel array
@@ -14,6 +15,7 @@ contract Dart {
         r = new uint[](npixels);
         g = new uint[](npixels);
         b = new uint[](npixels);
+        writes = 0;
     }
 
     // get pixel you have access to
@@ -34,5 +36,7 @@ contract Dart {
         r[n] = red;
         g[n] = gre;
         b[n] = blu;
+
+        writes++;
     }
 }
