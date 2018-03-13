@@ -6,7 +6,7 @@
 ## Instructions
 ##### 1. Instead geth (a go implementation of ethereum)
 ##### 2. Run a local Rinkeby node to connect to an Ethereum test blockchain.
-'''
+''' bash
 geth --rinkeby
 '''
 ##### 2. Load the webpage.
