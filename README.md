@@ -1,5 +1,6 @@
 # Dart
-## Experimenting with Decentralized Collaborative Emergent Art
+## Experimenting with Decentralized Collaborative Art
+https://i.redd.it/agcbmqgjn14z.png
 
 
 ## Instructions
@@ -13,3 +14,4 @@ or if that doesn't work try <br />
 > geth --rinkeby --syncmode "fast" --rpc --rpcapi db,eth,net,web3,personal --cache=1024  --rpcport 8545 --rpccorsdomain "*"
 ##### 2. Load the webpage.
 ##### 3. Select color from picker and submit to edit your pixel.
+Unlock your wallet if prompted.
