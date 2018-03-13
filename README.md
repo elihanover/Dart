@@ -7,6 +7,7 @@ If you do live under a rock, it's okay because you can read about it [here](http
 
 Anyways, I thought it might be fun to build a decentralized version of this on top of Ethereum.
 
+## About
 Each user is given a pixel hashed from their public key that they can edit.  Multiple users could have write access to the same pixel, but one address is limited to one "pixel".  Currently, the gas limit on Ethereum makes it impractical to have a very sizeable image, so I've gone with 10x10 to start.  Boring, yes, but this is more likely non-optimal Solidity programming on my part which can be fixed. 
 
 
