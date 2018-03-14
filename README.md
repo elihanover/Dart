@@ -1,6 +1,6 @@
 # Dart
 ## Experimenting with Decentralized Collaborative Art
-###### If you don't live under a rock, you may have seen this before:
+##### If you don't live under a rock, you may have seen this before:
 ![alt text](https://i.redd.it/agcbmqgjn14z.png "final r/place")
 
 If you do live under a rock, it's okay because you can read about it [here](https://sploid.gizmodo.com/find-out-all-the-stories-from-reddits-massive-collabora-1794784713).
