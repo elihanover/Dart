@@ -12,15 +12,15 @@ pxl = contractInstance.getYourPixel.call();
 // set n_writes
 document.getElementById('nWrites').innerText = "Total Writes: " + contractInstance.writes.call();
 
+// paint canvas
+paint();
 
 // contruct the image
 function paint() {
 
     var canvas = document.getElementById('myCanvas');
     var cnv = canvas.getContext('2d');
-    console.log(cvs);
     const npixels = contractInstance.npixels.call();
-    console.log(npixels.toString());
     for (i = 0; i < npixels; i++) {
         // get pixels
         r = contractInstance.r.call(i);
@@ -28,8 +28,7 @@ function paint() {
         b = contractInstance.b.call(i);
 
         cnv.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
-        console.log(fillStyle);
-        cnv.fillRect((i%100)*10, i/10, 10, 10);
+        cnv.fillRect((i%10)*50, 50*parseInt(i/10), 50, 50);
 
     }
 }
@@ -44,10 +43,7 @@ function writeColor() {
     g = imageData[1];
     b = imageData[2];
     console.log(r, g, b);
-    web3.personal.unlockAccount(userAddress, 'password')
+    web3.personal.unlockAccount(userAddress, prompt("Enter your password to unlock your wallet."))
     contractInstance.writeWithColor.sendTransaction(r, g, b, {from: userAddress, value: 0, gas:6700000})
-    // fallback: if valid, change the color of that pixel
-    // pop error otherwise
     paint()
-
 }
